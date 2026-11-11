@@ -19,6 +19,7 @@ function upsert(prev: ShelfItem[], shipment: Shipment): ShelfItem[] {
     status: shipment.status,
     category: shipment.category,
     sample: shipment.sample,
+    handoff: shipment.handoff,
     savedAt: existing?.savedAt ?? new Date().toISOString(),
   };
   return [next, ...prev.filter((item) => item.trackingNumber !== next.trackingNumber)].slice(0, 24);

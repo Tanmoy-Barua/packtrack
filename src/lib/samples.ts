@@ -48,7 +48,7 @@ function scan(
 }
 
 function shipment(
-  partial: Omit<Shipment, "sample" | "fetchedAt" | "events"> & { events: ScanEvent[] },
+  partial: Omit<Shipment, "sample" | "handoff" | "fetchedAt" | "events"> & { events: ScanEvent[] },
 ): Shipment {
   return {
     ...partial,
@@ -57,6 +57,7 @@ function shipment(
       return a.timestamp < b.timestamp ? 1 : -1;
     }),
     sample: true,
+    handoff: false,
     fetchedAt: new Date().toISOString(),
   };
 }

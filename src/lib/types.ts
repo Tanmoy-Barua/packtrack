@@ -37,6 +37,7 @@ export type Shipment = {
   expectedDelivery: string | null;
   events: ScanEvent[];
   sample: boolean;
+  handoff: boolean;
   fetchedAt: string;
 };
 

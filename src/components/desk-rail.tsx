@@ -111,7 +111,7 @@ export function DeskRail({
 
         {live === false ? (
           <p className="mt-4 rounded-2xl border border-white/10 bg-black/20 px-3.5 py-3 text-sm leading-6 text-white/70">
-            Live scans turn on when USPS credentials are connected. Sample shipments below are ready now.
+            A real number opens on USPS.com. No business account needed. Samples below show a full history on this desk.
           </p>
         ) : null}
 
@@ -149,7 +149,9 @@ export function DeskRail({
                           <span className="truncate font-display text-lg leading-none">{label}</span>
                         </span>
                         <span className="mt-1.5 flex items-center gap-2 pl-3.5 text-xs text-white/55">
-                          <span className="truncate">{CATEGORY_LABEL[item.category]}</span>
+                          <span className="truncate">
+                            {item.handoff ? "On USPS.com" : CATEGORY_LABEL[item.category]}
+                          </span>
                           {item.sample ? (
                             <Badge className="h-4 bg-white/10 px-1.5 text-[10px] text-paper">Sample</Badge>
                           ) : null}

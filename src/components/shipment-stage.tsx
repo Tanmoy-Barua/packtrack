@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatEventWhen, formatEventWhere, formatExpected, formatUpdated, groupNumber } from "@/lib/format";
+import { uspsPageUrl } from "@/lib/handoff";
 import { listSamples, type SampleCard } from "@/lib/samples";
 import { CATEGORY_LABEL, PROGRESS_STEPS, stepIndex } from "@/lib/status";
 import { formatPlace } from "@/lib/text";
@@ -158,7 +159,50 @@ function ShipmentDetail({
   const current = stepIndex(shipment.category);
   const marker = ((current + 0.5) / PROGRESS_STEPS.length) * 100;
   const deliveredAt = shipment.category === "delivered" ? shipment.events[0] : null;
-  const uspsHref = `https://tools.usps.com/go/TrackConfirmAction?tLabels=${encodeURIComponent(shipment.trackingNumber)}`;
+  const uspsHref = uspsPageUrl(shipment.trackingNumber);
+
+  if (shipment.handoff) {
+    return (
+      <article className="mx-auto max-w-3xl" aria-live="polite">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-ink-soft">USPS.com</p>
+        <h2 className="mt-2 font-display text-[clamp(2.7rem,6vw,4.4rem)] leading-[0.92] tracking-tight">
+          See it on USPS
+        </h2>
+        <p className="mt-4 max-w-xl font-display text-2xl italic leading-snug">{shipment.summary}</p>
+        <section className="ticket mt-8 rounded-[1.6rem] px-6 py-6 sm:px-8">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-ink-soft">Tracking number</p>
+          <p className="mt-1 font-mono text-lg tracking-wide sm:text-xl">{groupNumber(shipment.trackingNumber)}</p>
+          <label className="mt-5 block max-w-md">
+            <span className="text-[11px] uppercase tracking-[0.16em] text-ink-soft">On your desk</span>
+            <Input
+              value={nickname}
+              onValueChange={onNickname}
+              placeholder="Name this parcel"
+              maxLength={60}
+              aria-label="Parcel nickname, stored on this device"
+              className="mt-1 h-11 rounded-none border-0 border-b border-ink/15 bg-transparent px-0 font-display text-2xl shadow-none focus-visible:border-seal focus-visible:ring-0 md:text-2xl"
+            />
+          </label>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <a
+              href={uspsHref}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex h-11 items-center rounded-full bg-navy px-5 text-sm font-medium text-paper hover:bg-navy-2"
+            >
+              Open live scans
+            </a>
+            <Button type="button" variant="outline" className="h-11 rounded-full bg-ticket px-4" onClick={onRemove}>
+              Remove
+            </Button>
+          </div>
+        </section>
+        <p className="mt-4 text-xs leading-5 text-ink-soft">
+          The nickname stays in this browser. USPS keeps the scan history.
+        </p>
+      </article>
+    );
+  }
 
   async function copyNumber() {
     try {

@@ -19,13 +19,10 @@ Open the local URL printed by Next.js. The dev server listens on port **3847**.
 - Refresh a result, copy the number, or open the same number on USPS.com.
 - Remove a parcel from the desk. That only clears this browser.
 
-## Live USPS scans
+## Live scans
 
-Waybill calls the [USPS Tracking API](https://developers.usps.com/) (`https://apis.usps.com/tracking/v3/tracking/{number}?expand=DETAIL`). The server reads:
+A real tracking number opens on USPS.com. That page does not need a business account. Waybill keeps the number and the nickname on this device.
 
-- `USPS_CONSUMER_KEY`
-- `USPS_CONSUMER_SECRET`
+Sample shipments show a full scan history inside the desk.
 
-Those are the Consumer Key and Consumer Secret from a USPS developer app. Without them, the desk still runs and the sample shipments stay available. USPS may only return packages tied to the Mailer ID on the developer account.
-
-Nicknames are never sent with a lookup.
+A USPS Business Account can optionally connect the Tracking API. The server then reads `USPS_CONSUMER_KEY` and `USPS_CONSUMER_SECRET`. Nicknames are never sent with a lookup.

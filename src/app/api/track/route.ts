@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { handoffShipment } from "@/lib/handoff";
 import { getSample } from "@/lib/samples";
 import { trackWithUsps, uspsConfigured, UspsError } from "@/lib/usps";
 import { normalizeTrackingNumber } from "@/lib/validate";
@@ -104,10 +105,9 @@ export async function POST(request: Request) {
     if (sampleOnly) {
       return fail(live, "not_found", "That sample is not on the desk.");
     }
-    return fail(
-      live,
-      "credentials",
-      "Live USPS lookup isn’t connected yet. Open a sample shipment, then try this number again after the USPS credentials are added.",
+    return Response.json(
+      { ok: true, live, shipment: handoffShipment(trackingNumber) },
+      { headers: { "cache-control": "no-store" } },
     );
   }
 

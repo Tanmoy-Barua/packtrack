@@ -9,6 +9,7 @@ export type ShelfItem = {
   status: string;
   category: StatusCategory;
   sample: boolean;
+  handoff?: boolean;
   savedAt: string;
 };
 
@@ -37,6 +38,7 @@ function isShelfItem(value: unknown): value is ShelfItem {
     typeof item.category === "string" &&
     CATEGORIES.has(item.category) &&
     typeof item.sample === "boolean" &&
+    (item.handoff === undefined || typeof item.handoff === "boolean") &&
     typeof item.savedAt === "string"
   );
 }

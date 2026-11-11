@@ -104,6 +104,7 @@ export function mapUspsPayload(trackingNumber: string, payload: unknown): Shipme
     expectedDelivery: expectedDelivery(data),
     events,
     sample: false,
+    handoff: false,
     fetchedAt: new Date().toISOString(),
   };
 }
